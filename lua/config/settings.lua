@@ -30,4 +30,4 @@ opt.foldenable = true
 -- Configurar mapeo para Terminal
 vim.api.nvim_set_keymap('t', '<Esc>', [[<C-\><C-n>]], { noremap = true })
 vim.api.nvim_set_keymap('n', '<Leader>x', ':w<CR>:!venv/bin/python3 %<CR>', { noremap = true, silent = true })
-require('jirafa').setup()
+-- require('jirafa').setup()
