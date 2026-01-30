@@ -62,33 +62,45 @@ return {
       }
     })
 
+    -- settings = {
+    --   ["rust-analyzer"] = {
+    --     diagnostics = {
+    --       enable = true,
+    --     },
+    --     procMacro = {
+    --       enable = true,
+    --     },
+    --     checkOnSave = true,
+    --     telemetry = {
+    --       enable = false,
+    --     },
+    --     workspace = {
+    --       checkThirdParty = false,
+    --     },
+    --     cargo = {
+    --       allFeatures = true,
+    --     },
+    --   }
+    -- }
+
     require'lspconfig'.rust_analyzer.setup{
+      filetypes = { "rust" },
       on_attach = on_attach,
-      settings = {
-        ["rust-analyzer"] = {
-          diagnostics = {
-            enable = true,
-          },
-          procMacro = {
-            enable = true,
-          },
-          checkOnSave = true,
-          telemetry = {
-            enable = false
-          },
-          workspace = {
-            checkThirdParty = false
-          }
-        }
-      }
+    }
+    require'lspconfig'.pylsp.setup{
+      filetypes = { "py" },
+      on_attach = on_attach,
     }
 
-    require'lspconfig'.pylsp.setup{
+    require'lspconfig'.postgres_lsp.setup{
+      cmd = { "postgres-language-server", "lsp-proxy" },
+      filetypes = { "sql" },
       on_attach = on_attach,
     }
 
     -- Configuración para C/C++ (Clangd)
     require'lspconfig'.clangd.setup{
+      filetypes = { "cpp" },
       on_attach = on_attach,
     }
   end
