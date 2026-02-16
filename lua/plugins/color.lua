@@ -1,10 +1,8 @@
 return {
-  -- "ellisonleao/gruvbox.nvim",
-  "jnurmine/Zenburn",
-  -- "zenbones-theme/zenbones.nvim",
-  -- dependencies = "rktjmp/lush.nvim",
+  'pgdouyon/vim-yin-yang',
+  lazy = false,
   priority = 1000,
   config = function()
-    vim.cmd.colorscheme('zenburn')
+    vim.cmd.colorscheme('yin')
   end,
 }

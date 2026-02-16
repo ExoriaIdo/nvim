@@ -27,6 +27,9 @@ opt.foldmethod = 'indent'
 opt.foldlevel = 99
 opt.foldenable = true
 
+opt.list = true
+opt.listchars = "leadmultispace:⋅,trail:·"
+
 -- Configurar mapeo para Terminal
 vim.api.nvim_set_keymap('t', '<Esc>', [[<C-\><C-n>]], { noremap = true })
 vim.api.nvim_set_keymap('n', '<Leader>x', ':w<CR>:!venv/bin/python3 %<CR>', { noremap = true, silent = true })
