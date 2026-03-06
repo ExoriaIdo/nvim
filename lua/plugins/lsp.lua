@@ -2,14 +2,9 @@ return {
   "neovim/nvim-lspconfig",
   dependencies = {
     "williamboman/mason.nvim",
+    "williamboman/mason-lspconfig.nvim",
   },
   config = function()
-    -- Configuración de indentación a 2 espacios
-    vim.opt.tabstop = 2          -- Número de espacios para tabulaciones
-    vim.opt.softtabstop = 2      -- Número de espacios para retroceder con backspace
-    vim.opt.shiftwidth = 2       -- Número de espacios para el autoindentado
-    vim.opt.expandtab = true     -- Convertir tabs en espacios
-
     local on_attach = function(_, bufnr)
       vim.bo[bufnr].omnifunc = 'v:lua.vim.lsp.omnifunc'
       vim.keymap.set('n', 'K', vim.lsp.buf.hover, {buffer = bufnr})
@@ -84,17 +79,17 @@ return {
     -- }
 
     require'lspconfig'.rust_analyzer.setup{
-      filetypes = { "rust" },
-      on_attach = on_attach,
-    }
-    require'lspconfig'.pylsp.setup{
-      filetypes = { "py" },
-      on_attach = on_attach,
+      settings = {
+        ['rust-analyzer'] = {
+          diagnostics = {
+            enable = true;
+          }
+        }
+      }
     }
 
-    require'lspconfig'.postgres_lsp.setup{
-      cmd = { "postgres-language-server", "lsp-proxy" },
-      filetypes = { "sql" },
+    require'lspconfig'.pylsp.setup{
+      filetypes = { "py" },
       on_attach = on_attach,
     }
 

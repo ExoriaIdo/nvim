@@ -1,8 +1,8 @@
 return {
-  'pgdouyon/vim-yin-yang',
+  'kadekillary/skull-vim',
   lazy = false,
   priority = 1000,
   config = function()
-    vim.cmd.colorscheme('yin')
+    vim.cmd.colorscheme('skull')
   end,
 }
