@@ -82,8 +82,12 @@ return {
       settings = {
         ['rust-analyzer'] = {
           diagnostics = {
-            enable = true;
-          }
+            enable = true,
+          },
+          procMacro = { enable = true },
+          cargo = {
+            buildScripts = { enable = true },
+          },
         }
       }
     }
