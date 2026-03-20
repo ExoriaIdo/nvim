@@ -1,20 +1,27 @@
 -- "lua package.loaded['jirafa'] = nil; require('jirafa').setup()"
--- jirafa.lua
+-- jirafa.lua — mac_classic palette port
 local M = {}
 
 local colors = {
-    bg = "#262626",
-    fg = "#E6D5C6",
-    gb = "#6E6E6E",
+    bg      = "#EFF2EE",
+    fg      = "#000000",
+    gb      = "#808080",
 
-    goldenrod = "#B99A5B",
-    gray_green = "#8D9B92",
-    rosewood = "#89666A",
-    maquillaje = "#AC8391",
+    dblue   = "#0000A2",   -- numbers, function names
+    blue    = "#1E39F6",   -- keywords, operators
+    lblue   = "#0066FF",   -- comments, folds
+    lpurple = "#6E79F1",   -- booleans, constants
+    teal    = "#318495",   -- instance/global vars
+    dgreen  = "#007B22",   -- strings, labels
+    lgreen  = "#00BC41",   -- interpolation, CSS attrs
+    red     = "#D51015",   -- constants, symbols, numbers
+    pink    = "#E18AC7",   -- regexps
+    bgrey   = "#3C4C72",   -- rails helpers, cursor
 
-    visual = "#323436",
-
-    red = "#C96442",
+    visual  = "#C6DEFF",
+    curline = "#F0F6FF",
+    linebg  = "#EFEFEF",
+    error   = "#990000",
 }
 
 function M.setup()
@@ -22,121 +29,152 @@ function M.setup()
     if vim.fn.exists("syntax_on") == 1 then
         vim.cmd("syntax reset")
     end
-    vim.o.background = "dark"
-    vim.g.colors_name = "suricata"
+    vim.o.background = "light"
+    vim.g.colors_name = "mac_classic"
 
     local highlights = {
-        -- Grupos básicos de Treesitter (puedes agregar más)
-        Normal = { fg = colors.fg, bg = colors.bg },              -- Texto normal
-        String = { fg = colors.goldenrod },                           -- Las comillas y strings
-        CursorLine = { bg = 'None' },
-        Visual = { bg = colors.visual },
+        -- Base
+        Normal        = { fg = colors.fg,      bg = colors.bg },
+        Visual        = { bg = colors.visual },
+        CursorLine    = { bg = colors.curline },
+        CursorColumn  = { bg = colors.curline },
+        LineNr        = { fg = colors.gb,       bg = colors.linebg },
+        CursorLineNr  = { fg = colors.dblue,    bg = colors.linebg },
+        VertSplit     = { fg = colors.bg,        bg = "#CFCFCF" },
+        MatchParen    = { fg = colors.blue,      bold = true },
+        Folded        = { fg = colors.lblue,     bg = colors.bg },
+        FoldColumn    = { fg = colors.lblue,     bg = colors.linebg },
+        Directory     = { fg = colors.red,       bold = true },
+        EndOfBuffer   = { fg = colors.linebg },
 
-        Directory = { fg = colors.goldenrod },                         -- Nombres de directorios/archivos
-        IncSearch = { bg = colors.visual },
+        -- Search
+        IncSearch     = { bg = "#FFCE77" },
+        Search        = { bg = "#FFE6BB" },
 
-        ["@function"] = { fg = colors.goldenrod },
-        ["@function.builtin"] = { fg = colors.rosewood},
-        ["@function.call"] = { fg = colors.gray_green },
-        ["@method"] = { fg = colors.fg}, -- #
-        ["@method.call"] = { fg = colors.fg }, --#
+        -- Popupmenu
+        Pmenu         = { fg = colors.fg,  bg = colors.linebg },
+        PmenuSel      = { fg = colors.fg,  bg = colors.visual },
+        PmenuSbar     = { bg = colors.linebg },
+        PmenuThumb    = { bg = colors.gb },
 
-        -- Palabras clave (universal)
-        ["@keyword"] = { fg = colors.red},
-        ["@keyword.conditional"] = { fg = colors.red },    -- if, else, switch
-        ["@keyword.repeat"] = { fg = colors.red},         -- for, while, loop
-        ["@keyword.return"] = { fg = colors.rosewood },
-        ["@keyword.operator"] = { fg = colors.red },     -- and, or, not, &&, ||
-        ["@keyword.import"] = { fg = colors.gray_green },         -- import, include, use
-        ["@keyword.function"] = { fg = colors.red },     -- def, function, func
+        -- StatusLine
+        StatusLine    = { fg = colors.fg,  bg = colors.visual,  italic = true },
+        StatusLineNC  = { fg = colors.fg,  bg = colors.linebg },
 
-        -- Variables y constantes
-        ["@variable"] = { fg = colors.fg },
-        ["@variable.builtin"] = { fg = colors.fg },      -- this, self, super
-        ["@variable.parameter"] = { fg = colors.fg },
-        ["@variable.member"] = { fg = colors.fg },        -- object.property
-        ["@constant"] = { fg = colors.red },
-        ["@constant.builtin"] = { fg = colors.goldenrod },     -- true, false, null, nil
+        -- Window
+        WinSeparator  = { fg = "#CFCFCF" },
 
-        -- Tipos de datos
-        ["@type"] = { fg = colors.maquillaje },
-        ["@type.builtin"] = { fg = colors.rosewood },           -- int, string, bool, etc.
-        ["@type.definition"] = { fg = colors.fg },          -- class, struct, interface
+        -- Invisible chars
+        NonText       = { fg = "#DFDFDF" },
+        SpecialKey    = { fg = "#DFDFDF" },
 
-        -- Literales
-        ["@string"] = { fg = colors.gray_green},
-        ["@string.escape"] = { fg = colors.fg },        -- \n, \t, etc.
-        ["@number"] = { fg = colors.gray_green},
-        ["@boolean"] = { fg = colors.maquillaje },
-        ["@character"] = { fg = colors.maquillaje },
+        -- Errors / Warnings
+        ErrorMsg      = { fg = colors.bg,  bg = colors.error },
+        WarningMsg    = { fg = colors.bg,  bg = colors.error },
+        DiagnosticError             = { fg = colors.error },
+        DiagnosticWarn              = { fg = "#FFCE77" },
+        DiagnosticInfo              = { fg = colors.lblue },
+        DiagnosticHint              = { fg = colors.teal },
+        DiagnosticUnderlineError    = { underline = true, sp = colors.error },
+        DiagnosticUnderlineWarn     = { underline = true, sp = colors.gb },
+        DiagnosticUnderlineInfo     = { underline = true, sp = colors.gb },
+        DiagnosticUnderlineHint     = { underline = true, sp = colors.gb },
 
-        -- Comentarios
-        ["@comment"] = { fg = colors.gb },
-        ["@comment.documentation"] = { fg = colors.gb },
+        -- Core syntax
+        Comment       = { fg = colors.lblue,   italic = true },
+        Constant      = { fg = colors.red,      bold = true },
+        String        = { fg = colors.dgreen },
+        Character     = { fg = colors.red,      bold = true },
+        Number        = { fg = colors.dblue },
+        Float         = { fg = colors.dblue },
+        Boolean       = { fg = colors.lpurple,  bold = true },
+        Identifier    = { fg = colors.blue,     bold = true },
+        Function      = { fg = colors.dblue,    bold = true },
+        Statement     = { fg = colors.blue,     bold = true },
+        Conditional   = { fg = colors.blue,     bold = true },
+        Repeat        = { fg = colors.blue,     bold = true },
+        Label         = { fg = colors.dgreen },
+        Operator      = { fg = colors.blue,     bold = true },
+        Keyword       = { fg = colors.blue,     bold = true },
+        Exception     = { fg = colors.blue,     bold = true },
+        PreProc       = { fg = colors.blue,     bold = true },
+        Define        = { fg = colors.blue,     bold = true },
+        Type          = { fg = colors.lpurple },
+        StorageClass  = { fg = colors.blue,     bold = true },
+        Special       = { fg = colors.fg },
+        Title         = { fg = colors.fg,        bold = true },
+        Todo          = { fg = colors.lblue,     bold = true, italic = true, reverse = true },
+        Underlined    = { underline = true },
 
-        -- Operadores y puntuación
-        ["@operator"] = { fg = colors.maquillaje },
-        ["@punctuation"] = { fg = colors.fg },
-        ["@punctuation.bracket"] = { fg = colors.fg },      -- (), [], {}
-        ["@punctuation.delimiter"] = { fg = colors.fg },    -- ,, ;, :
-        ["@punctuation.special"] = { fg = colors.fg },  -- @, #, $
+        -- Treesitter
+        ["@comment"]                = { fg = colors.lblue,   italic = true },
+        ["@comment.documentation"]  = { fg = colors.lblue,   italic = true },
 
-        -- Propiedades y campos
-        ["@property"] = { fg = colors.fg },
-        ["@field"] = { fg = colors.fg },
-        ["@attribute"] = { fg = colors.goldenrod },               -- decoradores, annotations
+        ["@keyword"]                = { fg = colors.blue,    bold = true },
+        ["@keyword.conditional"]    = { fg = colors.blue,    bold = true },
+        ["@keyword.repeat"]         = { fg = colors.blue,    bold = true },
+        ["@keyword.return"]         = { fg = colors.blue,    bold = true },
+        ["@keyword.operator"]       = { fg = colors.blue,    bold = true },
+        ["@keyword.import"]         = { fg = colors.blue,    bold = true },
+        ["@keyword.function"]       = { fg = colors.blue,    bold = true },
 
-        -- Constructores y namespaces
-        ["@constructor"] = { fg = colors.goldenrod },
-        ["@namespace"] = { fg = colors.fg },                 -- módulos, packages
-        ["@module"] = { fg = colors.rosewood },
+        ["@function"]               = { fg = colors.dblue,   bold = true },
+        ["@function.builtin"]       = { fg = colors.dblue,   bold = true },
+        ["@function.call"]          = { fg = colors.dblue },
+        ["@method"]                 = { fg = colors.dblue,   bold = true },
+        ["@method.call"]            = { fg = colors.dblue },
 
-        -- Parámetros
-        ["@parameter"] = { fg = colors.fg },
+        ["@variable"]               = { fg = colors.fg },
+        ["@variable.builtin"]       = { fg = colors.teal },
+        ["@variable.parameter"]     = { fg = colors.fg },
+        ["@variable.member"]        = { fg = colors.fg },
 
-        -- Etiquetas específicas para algunos lenguajes pero comunes
-        ["@tag"] = { fg = colors.fg},                   -- HTML/XML tags
-        ["@tag.attribute"] = { fg = colors.gray_green },
-        ["@tag.delimiter"] = { fg = colors.goldenrod },             -- < > </ />
+        ["@constant"]               = { fg = colors.red,     bold = true },
+        ["@constant.builtin"]       = { fg = colors.lpurple, bold = true },
 
-        -- UI Elements
-        ["CursorLineNr"] = { fg = colors.goldenrod },
-        ["LineNr"] = { fg = colors.gb },
+        ["@type"]                   = { fg = colors.lpurple },
+        ["@type.builtin"]           = { fg = colors.lpurple, bold = true },
+        ["@type.definition"]        = { fg = colors.fg },
 
-        -- === ELEMENTOS DE LA INTERFAZ ===
-        Pmenu = { fg = colors.fg, bg = colors.bg },             -- Menú de autocompletado (fondo)
-        PmenuSel = { fg = colors.fg, bg = colors.gb },          -- Opción seleccionada en autocompletado
-        PmenuSbar = { bg = colors.bg },                         -- Barra de scroll del menú
-        PmenuThumb = { bg = colors.bg },                  -- Indicador de scroll del menú
+        ["@string"]                 = { fg = colors.dgreen },
+        ["@string.escape"]          = { fg = colors.lgreen },
+        ["@number"]                 = { fg = colors.dblue },
+        ["@boolean"]                = { fg = colors.lpurple, bold = true },
+        ["@character"]              = { fg = colors.red,     bold = true },
 
-        -- === TELESCOPE/FINDER (para ventanas como las de tu imagen) ===
-        TelescopeTitle = { fg = colors.goldenrod },         -- Títulos "Results", "Grep Preview", "Find Files"
-        TelescopePromptBorder = { fg = colors.gb },               -- Borde de la caja de búsqueda
-        TelescopeResultsBorder = { fg = colors.gb },              -- Borde de la lista de resultados
-        TelescopePreviewBorder = { fg = colors.gb },              -- Borde de la vista previa
-        TelescopeSelection = { bg = colors.visual },           -- Línea seleccionada (con >)
-        TelescopeMatching = { fg = colors.gray_green },    -- Texto que coincide con la búsqueda
+        ["@operator"]               = { fg = colors.blue,    bold = true },
+        ["@punctuation"]            = { fg = colors.fg },
+        ["@punctuation.bracket"]    = { fg = colors.fg },
+        ["@punctuation.delimiter"]  = { fg = colors.fg },
+        ["@punctuation.special"]    = { fg = colors.lgreen },
 
+        ["@property"]               = { fg = colors.fg },
+        ["@field"]                  = { fg = colors.fg },
+        ["@attribute"]              = { fg = colors.dblue },
+        ["@constructor"]            = { fg = colors.dblue,   bold = true },
+        ["@namespace"]              = { fg = colors.fg },
+        ["@module"]                 = { fg = colors.teal },
+        ["@parameter"]              = { fg = colors.fg },
 
-        StatusLine = { fg = colors.fg, bg = colors.bg},
-        StatusLineNC = { fg = colors.fg , bg = colors.bg },
+        ["@tag"]                    = { fg = colors.blue },
+        ["@tag.attribute"]          = { fg = colors.blue },
+        ["@tag.delimiter"]          = { fg = colors.blue },
 
-        WinSeparator = { fg = colors.visual },
-        Folded = { fg = colors.gb, bg = colors.visual },
-        FoldColumn = { fg = colors.gb, bg = colors.goldenrod },
+        -- Telescope
+        TelescopeTitle          = { fg = colors.dblue,  bold = true },
+        TelescopePromptBorder   = { fg = colors.gb },
+        TelescopeResultsBorder  = { fg = colors.gb },
+        TelescopePreviewBorder  = { fg = colors.gb },
+        TelescopeSelection      = { bg = colors.visual },
+        TelescopeMatching       = { fg = colors.red,    bold = true },
 
-        DiagnosticError = { fg = colors.red },
-        DiagnosticWarn = { fg = colors.goldenrod },
-        DiagnosticInfo = { fg = colors.maquillaje },
-        DiagnosticHint = { fg = colors.gray_green },
-
-        -- Todos los subrayados de diagnósticos en verde
-        DiagnosticUnderlineError = { underline = true, sp = colors.gb },
-        DiagnosticUnderlineWarn = { underline = true, sp = colors.gb },
-        DiagnosticUnderlineInfo = { underline = true, sp = colors.gb },
-        DiagnosticUnderlineHint = { underline = true, sp = colors.gb },
-
-        EndOfBuffer = { fg = colors.bg },
+        -- Diff
+        diffAdded   = { fg = colors.dgreen },
+        diffRemoved = { fg = colors.red },
+        diffFile    = { fg = colors.lpurple },
+        diffLine    = { fg = colors.fg },
+        diffChange  = { fg = colors.dgreen },
+        diffText    = { fg = colors.dgreen },
     }
 
     for group, opts in pairs(highlights) do

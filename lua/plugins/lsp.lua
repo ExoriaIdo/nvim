@@ -84,9 +84,12 @@ return {
           diagnostics = {
             enable = true,
           },
-          procMacro = { enable = true },
-          cargo = {
-            buildScripts = { enable = true },
+          procMacro = {
+            enable = true,
+          },
+          diagnostics = {
+            enable = true,
+            disabled = { "macro-error", "unresolved-proc-macro" },
           },
         }
       }
