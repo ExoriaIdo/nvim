@@ -31,5 +31,9 @@ opt.foldenable = true
 opt.list = true
 opt.listchars = "leadmultispace:⋅,trail:·"
 
+-- line
+opt.laststatus = 2
+
 -- colorscheme
-require('jirafa').setup()
+vim.cmd.colorscheme("shine")
+vim.api.nvim_set_hl(0, "StatusLine", { bg = "#ffffff" })
